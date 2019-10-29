@@ -4,43 +4,46 @@ import cn.wolfcode.shiro.dao.IPermissionDAO;
 import cn.wolfcode.shiro.dao.IRoleDAO;
 import cn.wolfcode.shiro.dao.IUserDAO;
 import cn.wolfcode.shiro.domain.User;
-import lombok.Setter;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
-
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class UserRealm extends AuthorizingRealm {
-
-    @Setter
     private IUserDAO userDAO;
-    @Setter
     private IRoleDAO roleDAO;
-    @Setter
     private IPermissionDAO permissionDAO;
 
+    public void setUserDAO(IUserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
+
+    public void setRoleDAO(IRoleDAO roleDAO) {
+        this.roleDAO = roleDAO;
+    }
+
+    public void setPermissionDAO(IPermissionDAO permissionDAO) {
+        this.permissionDAO = permissionDAO;
+    }
+
     //认证操作，身份验证
-    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
+    @Override
+    protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         //从token中获取登录的用户名， 查询数据库返回用户信息
-        String username = (String) token.getPrincipal();
+        String username = (String) authenticationToken.getPrincipal();
         User user = userDAO.getUserByUsername(username);
 
         if(user == null){
             return null;
         }
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(),
-                ByteSource.Util.bytes(user.getUsername()),
-                getName());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, user.getPassword(), ByteSource.Util.bytes(user.getUsername()), getName());
+//        CustomSimpleAuthenticationInfo info = new  CustomSimpleAuthenticationInfo(user.getId(), user.getPassword(), ByteSource.Util.bytes(user.getUsername()), getName());
+//        CustomSimpleAuthenticationInfo(admin.getId(), list, admin.getPsd(), this.getClass().getName());
         return info;
     }
 
@@ -52,9 +55,10 @@ public class UserRealm extends AuthorizingRealm {
     }
 
     //授权操作
-    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+    @Override
+    protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
 
-        User user = (User) principals.getPrimaryPrincipal();
+        User user = (User) principalCollection.getPrimaryPrincipal();
 
         List<String> permissions = new ArrayList<String>();
         List<String> roles = new ArrayList<>();

@@ -2,6 +2,8 @@ package cn.wolfcode.shiro.dao;
 
 import cn.wolfcode.shiro.domain.User;
 
+import javax.sql.DataSource;
+
 public interface IUserDAO {
     /**
      * 通过用户名查找用户对象
@@ -9,4 +11,6 @@ public interface IUserDAO {
      * @return
      */
     User getUserByUsername(String username);
+
+     void setDataSource(DataSource dataSource);
 }

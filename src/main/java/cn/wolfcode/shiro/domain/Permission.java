@@ -3,8 +3,6 @@ package cn.wolfcode.shiro.domain;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
-@Setter
 public class Permission {
     private Long id;
     private String name;  //权限名称

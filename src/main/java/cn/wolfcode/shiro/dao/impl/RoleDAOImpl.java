@@ -17,11 +17,15 @@ import java.util.List;
 
 @Repository
 public class RoleDAOImpl implements IRoleDAO {
+    private DataSource dataSource;
     private JdbcTemplate template;
 
-    @Autowired
-    private void setDataSource(DataSource dataSource){
+
+    public void setDataSource(DataSource dataSource){
         this.template = new JdbcTemplate(dataSource);
+
+        this.dataSource = dataSource;
+//        this.jdbcTemplateObject = new JdbcTemplate(dataSource);
     }
 
     @Override

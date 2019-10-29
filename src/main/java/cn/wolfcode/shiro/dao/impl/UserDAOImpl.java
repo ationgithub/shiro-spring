@@ -2,24 +2,25 @@ package cn.wolfcode.shiro.dao.impl;
 
 import cn.wolfcode.shiro.dao.IUserDAO;
 import cn.wolfcode.shiro.domain.User;
-import jdk.nashorn.internal.objects.annotations.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 @Repository
 public class UserDAOImpl implements IUserDAO {
-
+    private DataSource dataSource;
     private JdbcTemplate template;
 
-    @Autowired
-    private void setDataSource(DataSource dataSource){
+
+     public void setDataSource(DataSource dataSource){
         this.template = new JdbcTemplate(dataSource);
+
+        this.dataSource = dataSource;
+//        this.jdbcTemplateObject = new JdbcTemplate(dataSource);
     }
 
     @Override

@@ -9,8 +9,8 @@
 <h3>用户登录</h3>
 <span style="color: red;">${errorMsg}</span>
 <form method="post" action="/login">
-<p><input type="text" name="" value="" placeholder="账号"></p>
-<p><input type="password" name="pausernamessword" value="" placeholder="密码"></p>
+<p><input type="text" name="username" value="${username}" placeholder="账号"></p>
+<p><input type="password" name="password" value="${password}" placeholder="密码"></p>
 <input type="submit" value="登录">
 </form>
 </body>

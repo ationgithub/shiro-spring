@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <tr>
+        <th>id</th>
+        <th>用户名</th>
+        <th>密码</th>
+    </tr>
+    <tr     th:each="user : ${users}">
+        <td th:text = "${user.id}"></td>
+        <td th:text = "${user.username}"></td>
+        <td th:text = "${user.password}"></td>
+    </tr>
+</body>
+</html>

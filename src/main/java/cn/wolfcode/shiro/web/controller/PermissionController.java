@@ -21,9 +21,15 @@ public class PermissionController {
     //请求映射处理映射器
     //springmvc在启动时候将所有贴有请求映射标签：RequestMapper方法收集起来封装到该对象中
     private RequestMappingHandlerMapping rmhm;
-
-    @Autowired
     private IPermissionDAO permissionDAO;
+
+    public void setRmhm(RequestMappingHandlerMapping rmhm) {
+        this.rmhm = rmhm;
+    }
+
+    public void setPermissionDAO(IPermissionDAO permissionDAO) {
+        this.permissionDAO = permissionDAO;
+    }
 
     @RequestMapping("/reload")
     public String reload() throws  Exception{
